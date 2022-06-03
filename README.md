@@ -5,4 +5,4 @@
 
 คุณสามารถเอาโค้ดบอทตัวนี้ไปใช้ต่อเลย
 
-ถ้าพบบัคหรือปัญหาอะไรแจ้งได้ที่ Tine#7408 หรือดิส (CodingHub)(้https://discord.gg/MQGENRsTQE)
+ถ้าพบบัคหรือปัญหาอะไรแจ้งได้ที่ Tine#7408 หรือดิส [CodingHub](้https://discord.gg/MQGENRsTQE)
