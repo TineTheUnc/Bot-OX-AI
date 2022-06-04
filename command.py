@@ -56,6 +56,8 @@ class TicTacToeButton(nextcord.ui.Button["TicTacToe"]):
             if view.board.min() == 0 and await view.check_board_winner() is None and view.current_player == view.O:
                 await asyncio.sleep(1)
                 await view.AI()
+                await asyncio.sleep(1)
+                self.current_player = self.X
 
         else:
             await interaction.send(f"{interaction.user.mention} ไม่ใชาตาของคุณ", ephemeral=True)
@@ -111,7 +113,6 @@ class TicTacToe(nextcord.ui.View):
                 self.children[X2Y(action)].style = nextcord.ButtonStyle.success
                 self.children[X2Y(action)].disabled = True
                 self.current_player = self.X
-        self.current_player = self.X
     
     # This method checks for the board winner -- it is used by the TicTacToeButton
     async def checkRows(self, board):
