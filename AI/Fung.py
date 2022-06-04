@@ -72,8 +72,6 @@ def X2Y(x: int):
         y = 6
     elif x == 3:
         y = 1
-    elif x == 4:
-        y = 4
     elif x == 5:
         y = 7
     elif x == 6:
