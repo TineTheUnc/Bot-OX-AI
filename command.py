@@ -109,22 +109,6 @@ class TicTacToe(nextcord.ui.View):
                 self.children[X2Y(action)].style = nextcord.ButtonStyle.success
                 self.children[X2Y(action)].disabled = True
                 self.current_player = self.X
-        for i, b in enumerate(self.board):
-            if b == 1:
-                if self.children[X2Y(i)].label != "X":
-                    self.children[X2Y(i)].label = "X"
-                    self.children[X2Y(i)].style = nextcord.ButtonStyle.danger
-                    self.children[X2Y(i)].disabled = True
-            elif b == 2:
-                if self.children[X2Y(i)].label != "O":
-                    self.children[X2Y(i)].label = "0"
-                    self.children[X2Y(i)].style = nextcord.ButtonStyle.success
-                    self.children[X2Y(i)].disabled = True
-            else:
-                if self.children[X2Y(i)].label != "\u200b":
-                    self.children[X2Y(i)].label = "\u200b"
-                    self.children[X2Y(i)].style = nextcord.ButtonStyle.secondary
-                    self.children[X2Y(i)].disabled = False
         self.current_player = self.X
     
     # This method checks for the board winner -- it is used by the TicTacToeButton
