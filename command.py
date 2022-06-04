@@ -8,6 +8,7 @@ from nextcord.ext import tasks, commands
 from nextcord.ui import Button, View, Modal, TextInput
 from AI.Body import *
 from AI.Fung import *
+import asyncio
 
 
 intents = nextcord.Intents.default()
@@ -52,13 +53,14 @@ class TicTacToeButton(nextcord.ui.Button["TicTacToe"]):
             view.board[self.p] = view.X
             view.current_player = view.O
             await interaction.edit(content=content, view=view, delete_after=time_after)
-            if view.board.min() == 0 and view.check_board_winner() is None and view.current_player == view.O:
-                view.AI()
+            if view.board.min() == 0 and await view.check_board_winner() is None and view.current_player == view.O:
+                await asyncio.sleep(1)
+                await view.AI()
 
         else:
             await interaction.send(f"{interaction.user.mention} ไม่ใชาตาของคุณ", ephemeral=True)
 
-        winner = view.check_board_winner()
+        winner = await view.check_board_winner()
         if winner is not None:
             if winner == view.X:
                 content = f"{interaction.user.mention} ชนะ!\nยินดีด้วยคุณชนะ AI"
@@ -97,12 +99,12 @@ class TicTacToe(nextcord.ui.View):
             for y in range(3):
                 self.add_item(TicTacToeButton(x, y))
 
-    def AI(self):
+    async def AI(self):
         done = False
         while not done:
             state = np.array(self.board, copy=True)
             action = self.agent.act(swapSide(state))
-            if self.board[action] == 0:
+            if self.board[action] == 0 and self.current_player == self.O:
                 done = True
                 self.board[action] = self.O
                 self.children[X2Y(action)].label = "O"
@@ -112,29 +114,29 @@ class TicTacToe(nextcord.ui.View):
         self.current_player = self.X
     
     # This method checks for the board winner -- it is used by the TicTacToeButton
-    def checkRows(self, board):
+    async def checkRows(self, board):
         for row in board:
             if len(set(row)) == 1:
                 return row[0]
         return 0
 
-    def checkDiagonals(self, board):
+    async def checkDiagonals(self, board):
         if len(set([board[i][i] for i in range(len(board))])) == 1:
             return board[0][0]
         if len(set([board[i][len(board)-i-1] for i in range(len(board))])) == 1:
             return board[0][len(board)-1]
         return 0
 
-    def checkWin(self):
+    async def checkWin(self):
         board = self.board.reshape((3, 3))
         for newBoard in [board, np.transpose(board)]:
-            result = self.checkRows(newBoard)
+            result = await self.checkRows(newBoard)
             if result:
                 return result
-        return self.checkDiagonals(board)
+        return await self.checkDiagonals(board)
 
-    def check_board_winner(self):
-        winner = self.checkWin()
+    async def check_board_winner(self):
+        winner = await self.checkWin()
         if winner == 2:
             return self.O
         elif winner == 1:
