@@ -63,22 +63,3 @@ def rotageAction(action, n=1):
     board[action] = 1
     board = rotage(board, n)
     return np.argmax(board)
-
-
-def X2Y(x: int):
-    if x == 1:
-        y = 3
-    elif x == 2:
-        y = 6
-    elif x == 3:
-        y = 1
-    elif x == 5:
-        y = 7
-    elif x == 6:
-        y = 2
-    elif x == 7:
-        y = 5
-    else:
-        y = x
-    return y
-        
